@@ -16,5 +16,6 @@ namespace Roman_Cristina_Lab2.Data
 
         public DbSet<Roman_Cristina_Lab2.Models.Book> Book { get; set; } = default!;
         public DbSet<Roman_Cristina_Lab2.Models.Publisher> Publisher { get; set; } = default!;
+        public DbSet<Roman_Cristina_Lab2.Models.Author> Author { get; set; } = default!;
     }
 }
