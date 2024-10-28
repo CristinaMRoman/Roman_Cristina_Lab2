@@ -12,8 +12,8 @@ using Roman_Cristina_Lab2.Data;
 namespace Roman_Cristina_Lab2.Migrations
 {
     [DbContext(typeof(Roman_Cristina_Lab2Context))]
-    [Migration("20241027175559_InitialBookAuthor")]
-    partial class InitialBookAuthor
+    [Migration("20241028143135_BookCategory")]
+    partial class BookCategory
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,6 +79,46 @@ namespace Roman_Cristina_Lab2.Migrations
                     b.ToTable("Book");
                 });
 
+            modelBuilder.Entity("Roman_Cristina_Lab2.Models.BookCategory", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("BookID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("BookID");
+
+                    b.HasIndex("CategoryID");
+
+                    b.ToTable("BookCategory");
+                });
+
+            modelBuilder.Entity("Roman_Cristina_Lab2.Models.Category", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Category");
+                });
+
             modelBuilder.Entity("Roman_Cristina_Lab2.Models.Publisher", b =>
                 {
                     b.Property<int>("ID")
@@ -111,9 +151,38 @@ namespace Roman_Cristina_Lab2.Migrations
                     b.Navigation("Publisher");
                 });
 
+            modelBuilder.Entity("Roman_Cristina_Lab2.Models.BookCategory", b =>
+                {
+                    b.HasOne("Roman_Cristina_Lab2.Models.Book", "Book")
+                        .WithMany("BookCategories")
+                        .HasForeignKey("BookID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Roman_Cristina_Lab2.Models.Category", "Category")
+                        .WithMany("BookCategories")
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("Roman_Cristina_Lab2.Models.Author", b =>
                 {
                     b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("Roman_Cristina_Lab2.Models.Book", b =>
+                {
+                    b.Navigation("BookCategories");
+                });
+
+            modelBuilder.Entity("Roman_Cristina_Lab2.Models.Category", b =>
+                {
+                    b.Navigation("BookCategories");
                 });
 
             modelBuilder.Entity("Roman_Cristina_Lab2.Models.Publisher", b =>
