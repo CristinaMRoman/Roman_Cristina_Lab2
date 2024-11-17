@@ -47,11 +47,7 @@ namespace Roman_Cristina_Lab2.Pages.Books
 
         public async Task<IActionResult> OnPostAsync(string[] selectedCategories)
         {
-            if (!ModelState.IsValid)
-            {
-                PopulateAssignedCategoryData(_context, Book);
-                return Page();
-            }
+           
 
             var newBook = new Book();
 

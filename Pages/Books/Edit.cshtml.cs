@@ -67,12 +67,7 @@ namespace Roman_Cristina_Lab2.Pages.Books
                 return NotFound();
             }
 
-            if (!ModelState.IsValid)
-            {
-                PopulateAssignedCategoryData(_context, bookToUpdate);
-                return Page();
-            }
-
+        
             if (await TryUpdateModelAsync<Book>(
                 bookToUpdate,
                 "Book",
@@ -82,10 +77,16 @@ namespace Roman_Cristina_Lab2.Pages.Books
                 await _context.SaveChangesAsync();
                 return RedirectToPage("/Books/Index");
             }
+            if (!ModelState.IsValid)
+            {
+                PopulateAssignedCategoryData(_context, bookToUpdate);
+                return Page();
+            }
 
-            // Reapelăm PopulateAssignedCategoryData pentru a actualiza categoriile
+            UpdateBookCategories(_context, selectedCategories, bookToUpdate);
             PopulateAssignedCategoryData(_context, bookToUpdate);
             return Page();
+       
         }
 
         private bool BookExists(int id)

@@ -22,6 +22,10 @@ namespace Roman_Cristina_Lab2.Models
     public Author? Author { get; set; }
         //navigation property
         public ICollection<BookCategory>? BookCategories { get; set; }
+
+        [NotMapped]
+        public object Authors { get; set; }
+       
     }
 
 }
